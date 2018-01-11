@@ -1,0 +1,42 @@
+<html>
+<head></head>
+<body>
+  必须按转插件：
+  <a target="_blank" href="https://chrome.google.com/webstore/detail/allow-control-allow-origi/nlfbmbojpeacfghkpbjhddihlkkiljbi">google插件</a>
+  <a target="_blank" href="https://addons.mozilla.org/en-US/firefox/addon/cors-everywhere/">火狐插件</a>
+<iframe src="" frameborder="0" id="searchIfm" style="width:100%;height:100%;"></iframe>
+</body>
+<script>
+  var desc = '';
+  var Ajax = {
+    get: function(url, fn) {
+      var obj = new XMLHttpRequest();
+      obj.open('GET', url, true);
+      obj.onreadystatechange = function() {
+        if (obj.readyState == 4 && obj.status == 200 || obj.status == 304) {
+          fn.call(this, obj.responseText);
+        }
+      };
+      obj.send();
+    }
+  };
+
+  var fresh = function(){
+    Ajax.get('http://htpmsg.jiecaojingxuan.com/msg/current', function(data){
+      console.log(data);
+      newDesc = typeof(data.data) == "undefined" ? '' : data.data.event.desc;
+      if (desc != newDesc) {
+        console.log(newDesc);
+        document.getElementById('searchIfm').src = "https://www.baidu.com/s?wd=" +encodeURIComponent(newDesc);
+        desc = newDesc;
+      }
+    });
+  };
+
+  window.onload = function(){
+    fresh();
+    setInterval("fresh()", 800);
+  };
+
+</script>
+</html>    
