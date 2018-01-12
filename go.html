@@ -7,7 +7,7 @@
 <iframe src="" frameborder="0" id="searchIfm" style="width:100%;height:100%;"></iframe>
 </body>
 <script>
-  var desc = '测试：今天星期几？';
+  var desc = '';
   var Ajax = {
     get: function(url, fn) {
       var obj = new XMLHttpRequest();
@@ -24,6 +24,7 @@
   var fresh = function(){
     Ajax.get('https://htpmsg.jiecaojingxuan.com/msg/current', function(data){
       // data = {"code":0,"msg":"成功","data":{"event":{"answerTime":10,"correctOption":2,"desc":"9.乐器中的“圆号”又称？    ","displayOrder":8,"liveId":97,"options":"[\"英国号\",\"美国号\",\"法国号\"]","questionId":1110,"showTime":1515676255423,"stats":[20591,5617,40138],"status":2,"type":"showAnswer"},"type":"showAnswer"}};
+      data = JSON.parse(data);
       newDesc = typeof(data.data) == "undefined" ? '' : data.data.event.desc;
       console.log(desc);
       console.log(newDesc);
